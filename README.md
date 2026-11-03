@@ -212,6 +212,6 @@ bash scripts/smoke-test.sh
 
 ## 八、说明
 
-- 本项目为个人学习与毕业设计作品，未做生产级加固；如需上线，请务必替换 `JWT_SECRET`、关闭 `mock` 兜底、补充限流与审计。
+- 本项目为个人学习与项目作品，未做生产级加固；如需上线，请务必替换 `JWT_SECRET`、关闭 `mock` 兜底、补充限流与审计。
 - 仓库中不含任何真实密钥、数据库口令或环境变量文件；`application-local.yml`、`.env.*`、日志与构建产物均已被 `.gitignore` 排除。
 - 地图底图与地理编码服务由腾讯位置服务提供，需自行申请 Key（JavaScript GL）。
