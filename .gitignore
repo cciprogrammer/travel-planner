@@ -1,0 +1,39 @@
+# 后端
+backend/target/
+backend/.mvn/
+backend/src/main/resources/application-local.yml
+
+# 上传文件
+backend/uploads/
+
+# 一键启动脚本的运行时产物（日志 / PID）
+logs/
+.run/
+*.log
+
+# 本地备份包（内含 application-local.yml 等密钥配置，严禁入库）
+backups/
+*.tar.gz
+
+# 本地设计文档与截图（如需随源码发布，删掉下面一行）
+docs/
+
+# 前端
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# 环境变量（含腾讯地图 Key 等敏感配置，仅保留 .env.example 模板）
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# IDE / 系统
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

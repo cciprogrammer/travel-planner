@@ -1,0 +1,270 @@
+/* ============================================================
+   设计令牌（UI v1.1）
+   改动说明：补全色彩 / 字号 / 间距 / 圆角体系，并覆盖 Element Plus
+   主色变量，消除“#2f6fed 与 #409eff 两套蓝并存”的问题。
+   ============================================================ */
+:root {
+  /* 品牌色 */
+  --brand: #2f6fed;
+  --brand-hover: #1e5bd8;
+  --brand-active: #1747a8;
+  --brand-light: #eaf1ff;
+  --brand-border: #b9cef7;
+
+  /* 语义色 */
+  --success: #1d9e75;
+  --warning: #ef9f27;
+  --danger: #e24b4a;
+  --accent-amount: #ba7517;
+
+  /* 中性色 */
+  --text-1: #1f2430;
+  --text-2: #5f6b7a;
+  --text-3: #8a909c;
+  --bg-page: #f5f7fb;
+  --bg-card: #ffffff;
+  --bg-subtle: #f7f9fc;
+  --border: #e6eaf2;
+  --border-strong: #d7deea;
+
+  /* 字号阶梯（6 级封顶） */
+  --fs-title: 22px;
+  --fs-section: 16px;
+  --fs-body: 14px;
+  --fs-label: 13px;
+  --fs-note: 12px;
+  --fs-mini: 11px;
+
+  /* 间距 */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+
+  /* 圆角 */
+  --radius-ctrl: 8px;
+  --radius-card: 12px;
+  --radius-pill: 999px;
+}
+
+/* Element Plus 主色对齐：一处覆盖，按钮/滑块/分页/开关/标签全部跟随 */
+:root {
+  --el-color-primary: #2f6fed;
+  --el-color-primary-light-3: #6a96f2;
+  --el-color-primary-light-5: #97b6f6;
+  --el-color-primary-light-7: #c4d5fa;
+  --el-color-primary-light-8: #dae5fc;
+  --el-color-primary-light-9: #eaf1ff;
+  --el-color-primary-dark-2: #1e5bd8;
+  --el-border-radius-base: 8px;
+  --el-text-color-primary: #1f2430;
+  --el-text-color-regular: #5f6b7a;
+  --el-border-color: #d7deea;
+  --el-border-color-lighter: #e6eaf2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--sp-5) var(--sp-4) 48px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: var(--sp-4) 20px;
+  box-shadow: 0 1px 3px rgba(31, 36, 48, 0.04);
+  margin-bottom: 20px;
+  scroll-margin-top: 112px;
+}
+
+/* 主标题：22px，替代原来与 h3 几乎无差的 20px */
+.page-title {
+  font-size: var(--fs-title);
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  margin: 0 0 6px;
+  line-height: 1.4;
+}
+
+/* 卡片标题统一入口：所有 h3 换成这个类，避免浏览器默认 18.7px */
+.section-title,
+.sec-title {
+  font-size: var(--fs-section);
+  font-weight: 600;
+  color: var(--text-1);
+  margin: 0 0 var(--sp-3);
+  line-height: 1.5;
+}
+
+.page-desc {
+  color: var(--text-2);
+  font-size: var(--fs-label);
+  line-height: 1.7;
+  margin: 0 0 var(--sp-4);
+}
+
+.timeline-item {
+  border-left: 3px solid var(--brand-light);
+  padding: 10px 0 10px 16px;
+  margin-bottom: 6px;
+}
+
+.muted {
+  color: var(--text-3);
+  font-size: var(--fs-note);
+}
+
+.cost-tag {
+  color: var(--accent-amount);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 数字统一等宽，避免金额/天数跳动 */
+.num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.2px;
+}
+
+/* ---------- 工具类（替代散落的内联 style） ---------- */
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.row-center {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.hint-inline {
+  font-size: var(--fs-note);
+  color: var(--text-3);
+}
+
+.subtle-box {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-ctrl);
+  padding: 10px 12px;
+}
+
+.brand-note {
+  background: var(--brand-light);
+  border: 0.5px solid #d7e3fb;
+  border-radius: var(--radius-ctrl);
+  padding: 12px 14px;
+}
+
+/* ---------- 胶囊标签（兴趣 / 预算预设） ---------- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  border: 0.5px solid var(--border-strong);
+  background: #fff;
+  color: var(--text-2);
+  font-size: var(--fs-note);
+  line-height: 1.6;
+  cursor: pointer;
+  transition: all 120ms ease;
+  user-select: none;
+}
+
+.pill:hover {
+  border-color: var(--brand-border);
+  color: var(--brand-hover);
+}
+
+.pill.is-active {
+  background: var(--brand-light);
+  border-color: var(--brand-border);
+  color: var(--brand-active);
+  font-weight: 500;
+}
+
+/* ---------- 关键数字 ---------- */
+.metric-label {
+  font-size: var(--fs-mini);
+  color: var(--text-3);
+  margin-bottom: 2px;
+}
+
+.metric-value {
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--text-1);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.3px;
+  line-height: 1.4;
+}
+
+/* ---------- 空状态 ---------- */
+.empty-wrap {
+  text-align: center;
+  padding: 28px 0 20px;
+}
+
+.empty-wrap .empty-title {
+  font-size: var(--fs-label);
+  color: var(--text-2);
+  margin: 0 0 4px;
+}
+
+.empty-wrap .empty-desc {
+  font-size: var(--fs-note);
+  color: var(--text-3);
+  margin: 0 0 14px;
+}
+
+/* ---------- 响应式：窄屏两列折单列 ---------- */
+@media (max-width: 1100px) {
+  .page {
+    padding: 16px 12px 32px;
+  }
+  .card {
+    padding: 14px 16px;
+  }
+  .page-title {
+    font-size: 19px;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .card {
+    box-shadow: none;
+    border-color: #ddd;
+    page-break-inside: avoid;
+  }
+}

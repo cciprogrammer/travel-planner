@@ -1,0 +1,68 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/travel_planner?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: Asia/Shanghai
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# 自定义配置
+app:
+  jwt:
+    # 必须通过环境变量 JWT_SECRET 覆盖（长度 ≥ 32 字节）；下面的默认值仅供本地跑通，生产环境严禁使用
+    secret: ${JWT_SECRET:dev-only-insecure-jwt-secret-change-me-32}
+    expire-hours: 72
+  upload:
+    # 头像保存目录（相对后端工作目录，也可填绝对路径）
+    dir: uploads/avatar
+    # 头像访问前缀，需与静态资源映射一致
+    url-prefix: /uploads/avatar/
+  admin:
+    # 启动时自动创建的管理员账号（已存在则只补角色，不会覆盖已改过的密码）
+    # 密码必须通过 ADMIN_PASSWORD 注入；留空则跳过创建，避免仓库里出现默认口令
+    username: ${ADMIN_USERNAME:admin}
+    password: ${ADMIN_PASSWORD:}
+    nickname: ${ADMIN_NICKNAME:系统管理员}
+
+# 大模型（DeepSeek）配置
+# 说明：这里只放「与密钥无关」的通用默认值。真实 Key 走环境变量 DEEPSEEK_API_KEY，
+#       本地开发放在 gitignore 的 application-local.yml 里，避免密钥进版本库、也避免两处配置打架。
+deepseek:
+  # 建议用环境变量注入：set DEEPSEEK_API_KEY=sk-xxxx
+  api-key: ${DEEPSEEK_API_KEY:}
+  base-url: ${DEEPSEEK_BASE_URL:https://api.deepseek.com}
+  # 可用模型：deepseek-chat（推荐，非推理，长 JSON 输出稳定）/ deepseek-flash / deepseek-v4-pro。
+  # 后两者是推理模型，会把 token 先花在思考上，长行程 JSON 容易被截断，非特殊需要不要换。写错模型名会返回 400。
+  model: ${DEEPSEEK_MODEL:deepseek-chat}
+  timeout-seconds: 120
+  # 单次生成最大输出 token。行程 JSON 较长，给足余量可避免 finish_reason=length 被截断
+  max-tokens: ${DEEPSEEK_MAX_TOKENS:8192}
+  # 未配置 API Key 时是否使用内置示例数据（便于本地演示 / 答辩演示）
+  mock-enabled: ${DEEPSEEK_MOCK:false}
+  # 大模型调用失败（Key 无效 / 超时 / 余额不足）时是否降级为内置示例数据，
+  # 降级结果会在行程质检结果里标注「内置示例（大模型不可用：原因）」，不会被静默吞掉
+  fallback-to-mock-on-error: ${DEEPSEEK_FALLBACK_MOCK:true}
+
+logging:
+  level:
+    com.dgcz.travel: debug

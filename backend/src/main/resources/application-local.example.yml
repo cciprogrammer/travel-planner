@@ -1,0 +1,30 @@
+# 本地开发配置模板
+#
+# 使用方式：复制为同目录下的 application-local.yml 后填写真实值。
+# application-local.yml 已被 .gitignore 排除，不会进入版本库。
+#
+# 启动时指定 profile：--spring.profiles.active=local
+# 优先级：环境变量 > 本文件 > application.yml
+
+server:
+  # 若 8080 被占用，本地统一走 8081（前端 vite 代理默认指向 8081）
+  port: 8081
+
+spring:
+  datasource:
+    username: ${DB_USERNAME:root}
+    # 填写本机 MySQL 口令
+    password: ${DB_PASSWORD:}
+
+deepseek:
+  # 填写自己的 DeepSeek API Key（https://platform.deepseek.com）
+  api-key: ${DEEPSEEK_API_KEY:}
+  # 非推理模型，长 JSON 输出稳定；推理模型会把 token 先花在思考上，导致行程被截断
+  model: ${DEEPSEEK_MODEL:deepseek-chat}
+  # true 时不调用真实模型，直接用内置示例行程（无 Key 也可跑通全流程）
+  mock-enabled: ${DEEPSEEK_MOCK:true}
+
+# 本地管理员初始口令（仅首次创建账号时使用；留空则跳过创建）
+app:
+  admin:
+    password: ${ADMIN_PASSWORD:}
