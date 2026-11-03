@@ -126,7 +126,8 @@ java -Dfile.encoding=UTF-8 -jar target/travel-planner-0.0.1-SNAPSHOT.jar \
      --server.port=8081 --spring.profiles.active=local
 ```
 
-> 默认端口 8080；若被占用，用 `--server.port=8081` 覆盖，同时把前端代理指向同一端口。
+> `application-local.yml` 中端口设为 8081，与前端 vite 代理的默认目标一致。若改用其它端口，需同时设置
+> `VITE_PROXY_TARGET`，否则前端请求会打到没有服务的端口上。
 
 ### 4.5 启动前端
 
