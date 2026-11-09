@@ -21,7 +21,31 @@
 
 ---
 
-## 二、技术栈
+## 二、界面展示
+
+> 截图为 v1.1 版本界面。
+
+### 2.1 生成行程
+
+填写目的地、出发地、天数、预算与兴趣偏好即可发起生成：天数与预算决定方案边界，兴趣偏好影响每日节奏与景点类型。右侧同步展示最近生成的方案，可直接续看。
+
+![生成行程首页](screenshots/home.png)
+
+### 2.2 行程详情
+
+顶部是方案摘要与质检结论（截图中为「质检通过 · 100%」），锚点导航吸顶并随滚动高亮，内容按「交通 → 住宿 → 购物 → 地图 → 每日行程 → 预算 → 提示」的顺序排布，住宿紧跟在交通下方。
+
+![行程详情](screenshots/plan-detail.png)
+
+### 2.3 管理后台
+
+后台分「数据概览 / 用户数据 / 酒店管理」三个页签。概览页给出用户、方案、收藏、酒店四项总量，以及近 7 天生成趋势、酒店城市分布与活跃用户 Top 5。
+
+![管理后台](screenshots/admin.png)
+
+---
+
+## 三、技术栈
 
 | 层次 | 技术 |
 | --- | --- |
@@ -34,7 +58,7 @@
 
 ---
 
-## 三、目录结构
+## 四、目录结构
 
 ```
 travel-planner/
@@ -68,22 +92,23 @@ travel-planner/
 │  ├─ schema.sql                        # 建库建表
 │  └─ upgrade-admin.sql                 # 旧库增量升级（幂等）
 ├─ scripts/                             # 启动、状态、冒烟、黑盒、自检脚本
+├─ screenshots/                         # README 界面截图
 ├─ start.cmd                            # Windows 一键启动
 └─ stop.cmd                             # Windows 一键停止
 ```
 
 ---
 
-## 四、快速开始
+## 五、快速开始
 
-### 4.1 环境要求
+### 5.1 环境要求
 
 - JDK 17（**注意**：系统默认 `java` 可能是 11，请显式指定 `JAVA_HOME`）
 - Maven 3.8+
 - Node.js 18+
 - MySQL 8.0
 
-### 4.2 初始化数据库
+### 5.2 初始化数据库
 
 ```bash
 mysql -u root -p < sql/schema.sql
@@ -91,7 +116,7 @@ mysql -u root -p < sql/schema.sql
 
 脚本会创建 `travel_planner` 库与 4 张表（用户、方案、收藏、酒店）。已有旧库可用 `sql/upgrade-admin.sql` 增量升级。
 
-### 4.3 配置后端
+### 5.3 配置后端
 
 ```bash
 cd backend/src/main/resources
@@ -111,7 +136,7 @@ cp application-local.example.yml application-local.yml
 | `DEEPSEEK_MODEL` | 否 | 默认 `deepseek-chat`（推理模型易截断长 JSON，不建议更换） |
 | `DEEPSEEK_MOCK` | 否 | `true` 时强制使用内置示例，便于本地演示 |
 
-### 4.4 启动后端
+### 5.4 启动后端
 
 ```bash
 cd backend
@@ -129,7 +154,7 @@ java -Dfile.encoding=UTF-8 -jar target/travel-planner-0.0.1-SNAPSHOT.jar \
 > `application-local.yml` 中端口设为 8081，与前端 vite 代理的默认目标一致。若改用其它端口，需同时设置
 > `VITE_PROXY_TARGET`，否则前端请求会打到没有服务的端口上。
 
-### 4.5 启动前端
+### 5.5 启动前端
 
 ```bash
 cd frontend
@@ -140,13 +165,13 @@ npm run dev
 
 打开 `http://127.0.0.1:5173`。开发服务器会把 `/api` 代理到 `http://localhost:8081`，可用 `VITE_PROXY_TARGET` 覆盖。
 
-### 4.6 Windows 一键启动
+### 5.6 Windows 一键启动
 
 双击 `start.cmd`：脚本会自动探测 JDK 与 Node、检查 MySQL、按顺序拉起后端与前端，等健康检查通过后再打开浏览器。停止用 `stop.cmd`。
 
 ---
 
-## 五、行程质量校验（核心设计）
+## 六、行程质量校验（核心设计）
 
 生成结果不是「拿到就用」，而是先过一遍校验：
 
@@ -174,7 +199,7 @@ npm run dev
 
 ---
 
-## 六、测试
+## 七、测试
 
 ```bash
 # 单元测试（76 个用例）
@@ -191,7 +216,7 @@ bash scripts/smoke-test.sh
 
 ---
 
-## 七、接口概览
+## 八、接口概览
 
 | 方法 | 路径 | 说明 |
 | --- | --- | --- |
@@ -210,8 +235,7 @@ bash scripts/smoke-test.sh
 
 ---
 
-## 八、说明
+## 九、说明
 
-- 本项目为个人学习与项目作品，未做生产级加固；如需上线，请务必替换 `JWT_SECRET`、关闭 `mock` 兜底、补充限流与审计。
 - 仓库中不含任何真实密钥、数据库口令或环境变量文件；`application-local.yml`、`.env.*`、日志与构建产物均已被 `.gitignore` 排除。
 - 地图底图与地理编码服务由腾讯位置服务提供，需自行申请 Key（JavaScript GL）。
